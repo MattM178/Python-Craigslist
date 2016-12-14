@@ -13,7 +13,8 @@ import numpy as np
 import string
 from bs4 import BeautifulSoup as bs4
 
-url_base = 'https://cleveland.craigslist.org/search/apa?query=tremont'
+#enter in the city/search area you want
+url_base = 'https://cleveland.craigslist.org/search/apa'
 #params = dict(bedrooms=1)
 rsp = requests.get(url_base)
 #print(rsp.url)
