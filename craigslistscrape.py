@@ -55,8 +55,6 @@ this_time = pd.to_datetime(this_time)
 this_price = float(this_appt.find('span', {'class': 'result-price'}).text.strip('$'))
 this_title = this_appt.find('a', attrs={'class': 'result-title hdrlnk'}).text
 
-#print('\n'.join([str(i) for i in [this_size, n_brs, this_time, this_price, this_title]]))
-
 def find_prices(results):
     prices = []
     for rw in results:
@@ -127,6 +125,7 @@ results[['price', 'size', 'brs']] = results[['price', 'size', 'brs']].apply(pd.t
 
 results.head()
 
+#print chart, comment out/delete if you don't want a chart.
 ax = results.hist('price', bins=np.arange(0, 4000, 100))[0, 0]
 ax.set_title('Apartments for Rent.', fontsize=20)
 ax.set_xlabel('Price', fontsize=18)
