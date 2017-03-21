@@ -2,7 +2,7 @@
 """
 Created on Thu Jun 16 11:33:25 2016
 
-@author: MattMoss
+@author: MattM
 
 updated Nov 7th 2:12:00 2016
 """
@@ -79,7 +79,7 @@ def find_times(results):
 # Now loop through all of CL and store the results
 results = []  # We'll store the data here
 # Careful with this...too many queries == your IP gets banned temporarily
-search_indices = np.arange(0, 2500, 100)
+search_indices = np.arange(0, 2400, 100) #watch this, can cause problems with sizes_brs
 #for loc in loc_prefixes:
     #print(loc)
 for i in search_indices:
