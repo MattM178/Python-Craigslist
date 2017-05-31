@@ -15,7 +15,7 @@ from bs4 import BeautifulSoup as bs4
 
 #enter in the city/search area you want
 url_base = 'https://cleveland.craigslist.org/search/apa'
-#params = dict(bedrooms=1)
+
 rsp = requests.get(url_base)
 #print(rsp.url)
 
@@ -25,7 +25,7 @@ html = bs4(rsp.text, 'html.parser')
 apts = html.find_all('p', attrs={'class': 'result-info'})
 #print(len(apts))
 
-this_appt = apts[15]
+this_appt = apts[10]
 #print(this_appt.prettify())
 
 size = this_appt.findAll(attrs={'class': 'housing'})[0].text
