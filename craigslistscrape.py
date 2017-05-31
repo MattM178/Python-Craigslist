@@ -13,10 +13,24 @@ import numpy as np
 import string
 from bs4 import BeautifulSoup as bs4
 
-def find_size_and_brs(size):
-   
-    split = size.split('-')
 
+url_base = 'https://cleveland.craigslist.org/search/apa'
+
+rsp = requests.get(url_base)
+
+html = bs4(rsp.text, 'html.parser')
+
+apts = html.find_all('p', attrs={'class': 'result-info'})
+address = html.find_all('a', attrs={'class': 'mapaddress'})
+
+this_appt = apts[10]
+
+size = this_appt.findAll(attrs={'class': 'housing'})[0].text
+
+def find_size_and_brs(size):
+
+    split = size.split('-')
+ 
     if len(split) == 3:
         n_brs = split[0].replace('br', '')
         this_size = split[1].replace('ft2', '')
@@ -37,6 +51,7 @@ this_price = float(this_appt.find('span', {'class': 'result-price'}).text.strip(
 this_title = this_appt.find('a', attrs={'class': 'result-title hdrlnk'}).text
 
 print('\n'.join([str(i) for i in [this_size, n_brs, this_time, this_price, this_title]]))
+
 
 def find_prices(results):
     prices = []
