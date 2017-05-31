@@ -110,6 +110,7 @@ results[['price', 'size', 'brs']] = results[['price', 'size', 'brs']].apply(pd.t
 
 results.head()
 
+#make a graph from the data. this can be omitted.
 ax = results.hist('price', bins=np.arange(0, 4000, 100))[0, 0]
 ax.set_title('Apartments for Rent.', fontsize=20)
 ax.set_xlabel('Price', fontsize=18)
@@ -121,5 +122,6 @@ use_chars = string.ascii_letters +\
 results['title'] = results['title'].apply(
     lambda a: ''.join([i for i in a if i in use_chars]))
 
+#save results to csv and save at location.
 results.to_csv('C:\\Users\\Documents\\craigslist_results.csv')
 print('Done')
