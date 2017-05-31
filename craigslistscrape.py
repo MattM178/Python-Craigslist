@@ -2,7 +2,7 @@
 """
 Created on Thu Jun 16 11:33:25 2016
 
-@author: MattM
+@author: MattMoss
 
 updated Nov 7th 2:12:00 2016
 """
@@ -13,28 +13,10 @@ import numpy as np
 import string
 from bs4 import BeautifulSoup as bs4
 
-#enter in the city/search area you want
-url_base = 'https://cleveland.craigslist.org/search/apa'
-
-rsp = requests.get(url_base)
-#print(rsp.url)
-
-html = bs4(rsp.text, 'html.parser')
-#print(html.prettify()[:1000])
-
-apts = html.find_all('p', attrs={'class': 'result-info'})
-#print(len(apts))
-
-this_appt = apts[10]
-#print(this_appt.prettify())
-
-size = this_appt.findAll(attrs={'class': 'housing'})[0].text
-#print(size)
-
 def find_size_and_brs(size):
     #print(size)
     split = size.split('-')
-   # print(split)
+    #print(split)
     #print(len(split))
     if len(split) == 3:
         n_brs = split[0].replace('br', '')
@@ -54,6 +36,8 @@ this_time = this_appt.find('time')['datetime']
 this_time = pd.to_datetime(this_time)
 this_price = float(this_appt.find('span', {'class': 'result-price'}).text.strip('$'))
 this_title = this_appt.find('a', attrs={'class': 'result-title hdrlnk'}).text
+
+print('\n'.join([str(i) for i in [this_size, n_brs, this_time, this_price, this_title]]))
 
 def find_prices(results):
     prices = []
@@ -79,7 +63,7 @@ def find_times(results):
 # Now loop through all of CL and store the results
 results = []  # We'll store the data here
 # Careful with this...too many queries == your IP gets banned temporarily
-search_indices = np.arange(0, 2400, 100) #watch this, can cause problems with sizes_brs
+search_indices = np.arange(0, 2400, 100)
 #for loc in loc_prefixes:
     #print(loc)
 for i in search_indices:
@@ -92,6 +76,7 @@ for i in search_indices:
         size_text = [rw.findAll(attrs={'class': 'housing'})[0].text
                      for rw in apts]
         sizes_brs = [find_size_and_brs(stxt) for stxt in size_text]
+
         sizes, n_brs = zip(*sizes_brs)  # This unzips into 2 vectors
      
         # Find the title and link
@@ -125,7 +110,6 @@ results[['price', 'size', 'brs']] = results[['price', 'size', 'brs']].apply(pd.t
 
 results.head()
 
-#print chart, comment out/delete if you don't want a chart.
 ax = results.hist('price', bins=np.arange(0, 4000, 100))[0, 0]
 ax.set_title('Apartments for Rent.', fontsize=20)
 ax.set_xlabel('Price', fontsize=18)
@@ -137,6 +121,5 @@ use_chars = string.ascii_letters +\
 results['title'] = results['title'].apply(
     lambda a: ''.join([i for i in a if i in use_chars]))
 
-#enter your own path for saving csv
-results.to_csv('C:\\Users\\craigslist_results.csv')
+results.to_csv('C:\\Users\\MattMoss\\Documents\\craigslist_results.csv')
 print('Done')
