@@ -14,10 +14,9 @@ import string
 from bs4 import BeautifulSoup as bs4
 
 def find_size_and_brs(size):
-    #print(size)
+   
     split = size.split('-')
-    #print(split)
-    #print(len(split))
+
     if len(split) == 3:
         n_brs = split[0].replace('br', '')
         this_size = split[1].replace('ft2', '')
@@ -64,8 +63,7 @@ def find_times(results):
 results = []  # We'll store the data here
 # Careful with this...too many queries == your IP gets banned temporarily
 search_indices = np.arange(0, 2400, 100)
-#for loc in loc_prefixes:
-    #print(loc)
+
 for i in search_indices:
         url = 'http://cleveland.craigslist.org/search/apa'
         resp = requests.get(url, params={'bedrooms': 1, 's': i})
