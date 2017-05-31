@@ -13,20 +13,6 @@ import numpy as np
 import string
 from bs4 import BeautifulSoup as bs4
 
-
-url_base = 'https://cleveland.craigslist.org/search/apa'
-
-rsp = requests.get(url_base)
-
-html = bs4(rsp.text, 'html.parser')
-
-apts = html.find_all('p', attrs={'class': 'result-info'})
-address = html.find_all('a', attrs={'class': 'mapaddress'})
-
-this_appt = apts[10]
-
-size = this_appt.findAll(attrs={'class': 'housing'})[0].text
-
 def find_size_and_brs(size):
 
     split = size.split('-')
