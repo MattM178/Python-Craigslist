@@ -121,5 +121,5 @@ use_chars = string.ascii_letters +\
 results['title'] = results['title'].apply(
     lambda a: ''.join([i for i in a if i in use_chars]))
 
-results.to_csv('C:\\Users\\MattMoss\\Documents\\craigslist_results.csv')
+results.to_csv('C:\\Users\\Documents\\craigslist_results.csv')
 print('Done')
