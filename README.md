@@ -1,7 +1,7 @@
 # Python Craigslist
 Python code to scrape Craigslist for apartment data
 
-I modified this code from an online blog and made some updates. I cannot relocate the creator of the original file, but if I find them I will update the readme and credit them accordingly.
+I modified this code from an online blog and made some updates. Chris Holdgraf is the original author. I made some updates to adapt from deprecated code and made changes to suit my local needs. Here is a link to his blog post with the original tutorial: https://predictablynoisy.com/craigslist-scrape
 
 To get this running on your local machine you will need to configure the following:
 
