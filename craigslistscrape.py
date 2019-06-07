@@ -2,8 +2,7 @@
 """
 Created on Thu Jun 16 11:33:25 2016
 
-@author: MattMoss
-
+@author: MattMoss & https://predictablynoisy.com/craigslist-scrape
 updated Nov 7th 2:12:00 2016
 """
 
@@ -13,10 +12,25 @@ import numpy as np
 import string
 from bs4 import BeautifulSoup as bs4
 
+
+url_base = 'https://cleveland.craigslist.org/search/apa'
+rsp = requests.get(url_base)
+
+html = bs4(rsp.text, 'html.parser')
+
+apts = html.find_all('p', attrs={'class': 'result-info'})
+#print(apts)
+
+this_appt = apts[10]
+#print(this_appt.prettify())
+
+size = this_appt.findAll(attrs={'class': 'housing'})[0].text
+#print(size)
+
 def find_size_and_brs(size):
 
     split = size.split('-')
- 
+    
     if len(split) == 3:
         n_brs = split[0].replace('br', '')
         this_size = split[1].replace('ft2', '')
@@ -37,7 +51,6 @@ this_price = float(this_appt.find('span', {'class': 'result-price'}).text.strip(
 this_title = this_appt.find('a', attrs={'class': 'result-title hdrlnk'}).text
 
 print('\n'.join([str(i) for i in [this_size, n_brs, this_time, this_price, this_title]]))
-
 
 def find_prices(results):
     prices = []
@@ -64,7 +77,8 @@ def find_times(results):
 results = []  # We'll store the data here
 # Careful with this...too many queries == your IP gets banned temporarily
 search_indices = np.arange(0, 2400, 100)
-
+#pyfor loc in loc_prefixes:
+    #print(loc)
 for i in search_indices:
         url = 'http://cleveland.craigslist.org/search/apa'
         resp = requests.get(url, params={'bedrooms': 1, 's': i})
@@ -109,7 +123,6 @@ results[['price', 'size', 'brs']] = results[['price', 'size', 'brs']].apply(pd.t
 
 results.head()
 
-#make a graph from the data. this can be omitted.
 ax = results.hist('price', bins=np.arange(0, 4000, 100))[0, 0]
 ax.set_title('Apartments for Rent.', fontsize=20)
 ax.set_xlabel('Price', fontsize=18)
@@ -121,6 +134,5 @@ use_chars = string.ascii_letters +\
 results['title'] = results['title'].apply(
     lambda a: ''.join([i for i in a if i in use_chars]))
 
-#save results to csv and save at location.
-results.to_csv('C:\\Users\\Documents\\craigslist_results.csv')
+results.to_csv('C:\\Users\\mmoss\\Documents\\Python Scripts\\outputs\\craigslist_results.csv')
 print('Done')
